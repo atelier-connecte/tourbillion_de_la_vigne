@@ -429,6 +429,8 @@ body {
     -webkit-appearance: none;
     -moz-appearance: none;
     padding-right: 40px;
+    background-color: var(--fond-contenu);
+    color: var(--texte-sombre);
     background-image: linear-gradient(45deg, transparent 50%, var(--accent-principal) 50%), linear-gradient(135deg, var(--accent-principal) 50%, transparent 50%);
     background-position: calc(100% - 18px) calc(50% - 2px), calc(100% - 12px) calc(50% - 2px);
     background-size: 6px 6px, 6px 6px;
@@ -455,6 +457,11 @@ body {
     outline: none;
     border-color: var(--accent-principal);
     background-color: rgba(253, 250, 245, 0.1);
+}
+
+.form-group select:focus {
+    background-color: var(--fond-contenu);
+    color: var(--texte-sombre);
 }
 
 .form-group textarea {

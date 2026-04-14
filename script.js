@@ -323,10 +323,13 @@ async function sendEmails(reservationData) {
             message: `📧 Email : ${reservationData.email}\n📞 Téléphone : ${reservationData.phone}\n👥 Nombre de couverts : ${reservationData.guests}\n💬 Message : ${reservationData.message || 'Aucun message spécial'}`
         };
 
-        await Promise.all([
-            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CLIENT, clientTemplateParams),
-            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_RESTAURANT, restaurantTemplateParams)
-        ]);
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CLIENT, clientTemplateParams);
+        console.log('Email client envoyé:', EMAILJS_TEMPLATE_CLIENT);
+
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_RESTAURANT, restaurantTemplateParams);
+        console.log('Email restaurant envoyé:', EMAILJS_TEMPLATE_RESTAURANT);
         
         return true;
     } catch (error) {

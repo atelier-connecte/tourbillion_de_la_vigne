@@ -126,6 +126,8 @@ tourbillon-de-la-vigne/
 - **EmailJS finalisé** : Public Key mise à jour dans `index.html` (`AO-oBPw9GC0Lc9cQZ`) pour activer l’envoi réel depuis le nouveau compte
 - **Favicon personnalisé** : icône d’onglet remplacée par `assets/logo_atelier.jpg` sur `index.html` et `admin.html`
 - **Formulaire réservation lisible** : correction du contraste des menus déroulants `Heure` et `Nombre de couverts` (texte/fond des options) dans `styles.css`
+- **Compatibilité Windows/Chrome** : champs `select` forcés en fond clair + texte sombre (états fermé/ouvert/focus) pour éviter le blanc sur blanc
+- **EmailJS fiabilisé** : envoi client/admin passé en séquentiel avec micro-délai (au lieu de `Promise.all`) pour limiter les échecs intermittents liés au rate limit
 
 ### 🔒 Hors scope (ne jamais implémenter sans décision explicite)
 - Authentification admin (mot de passe)
@@ -188,7 +190,7 @@ Tout autre fichier .md va dans _archives/.
 
 ## 8. SESSION EN COURS
 
-**Résultat de fin de session :** Correction UX du formulaire de réservation appliquée : les listes déroulantes `Heure` et `Nombre de couverts` sont maintenant lisibles (contraste texte/fond corrigé) et alignées avec la patte visuelle du site.
+**Résultat de fin de session :** Correctif de fiabilité EmailJS appliqué : envoi séquentiel `template_295vy3j` puis `template_fa84d3n` avec un léger délai, pour stabiliser la réception des emails client et restaurant.
 
 ## 9. BACKLOG (missions suivantes)
 

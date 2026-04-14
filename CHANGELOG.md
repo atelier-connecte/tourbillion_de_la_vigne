@@ -4,6 +4,41 @@
 
 ---
 
+## 14 avril 2026 | Correctif fiabilité EmailJS | Envoi séquentiel
+
+**Objectif :** Stabiliser l’envoi des emails de réservation (client + restaurant) qui échouaient de manière intermittente.
+
+**Actions réalisées :**
+- Remplacement de l’envoi parallèle (`Promise.all`) par un envoi séquentiel
+- Ordre appliqué : `template_295vy3j` (client) puis `template_fa84d3n` (restaurant)
+- Ajout d’un micro-délai entre les 2 envois pour limiter les erreurs liées au rate limit
+- Ajout de logs explicites par template envoyé
+
+**Fichiers modifiés :**
+- script.js
+- PROJET_CONTEXTE.md
+
+**Résultat :** Fiabilité améliorée de l’envoi EmailJS, avec une réception plus stable des emails client et admin.
+
+---
+
+## 14 avril 2026 | Correctif UX complémentaire | Select Windows/Chrome
+
+**Objectif :** Corriger définitivement le rendu blanc sur blanc des listes déroulantes du formulaire de réservation sous Windows/Chrome.
+
+**Actions réalisées :**
+- Forçage des champs `select` en fond clair (`var(--fond-contenu)`) et texte sombre (`var(--texte-sombre)`)
+- Maintien des styles d’options (`option`) en contraste lisible
+- Stabilisation de l’état `:focus` des `select` pour éviter le retour visuel blanc sur blanc
+
+**Fichiers modifiés :**
+- styles.css
+- PROJET_CONTEXTE.md
+
+**Résultat :** Les menus déroulants `Heure` et `Nombre de couverts` restent lisibles en permanence sur Windows/Chrome.
+
+---
+
 ## 14 avril 2026 | Correctif UX | Lisibilité des listes déroulantes réservation
 
 **Objectif :** Corriger le rendu illisible des menus `Heure` et `Nombre de couverts` dans le formulaire de réservation.
