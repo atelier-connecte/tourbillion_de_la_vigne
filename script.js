@@ -3,8 +3,9 @@
 // ============================================
 
 // Configuration EmailJS
-const EMAILJS_SERVICE_ID = 'service_z4yst9z';
-const EMAILJS_TEMPLATE_RESTAURANT = 'template_15x26ni';
+const EMAILJS_SERVICE_ID = 'service_0vr7k2s';
+const EMAILJS_TEMPLATE_CLIENT = 'template_295vy3j';
+const EMAILJS_TEMPLATE_RESTAURANT = 'template_fa84d3n';
 
 // ============================================
 // === ANIMATIONS
@@ -300,12 +301,32 @@ async function sendEmails(reservationData) {
         const service = getServiceType(reservationData.time);
         const serviceLabel = service === 'dejeuner' ? 'Déjeuner' : 'Dîner';
         const formattedDate = new Date(reservationData.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-        
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_RESTAURANT, {
-            name: reservationData.firstName + ' ' + reservationData.lastName,
+
+        const fullName = reservationData.firstName + ' ' + reservationData.lastName;
+
+        const clientTemplateParams = {
+            to_name: fullName,
+            to_email: reservationData.email,
+            reservation_date: formattedDate,
+            reservation_time: reservationData.time,
+            service_label: serviceLabel,
+            guests: reservationData.guests,
+            client_phone: reservationData.phone,
+            client_message: reservationData.message || 'Aucun message spécial',
+            restaurant_name: 'Le Tourbillon de la Vigne',
+            restaurant_team: 'Pierre & Virginie'
+        };
+
+        const restaurantTemplateParams = {
+            name: fullName,
             time: formattedDate + ' à ' + reservationData.time + ' (' + serviceLabel + ')',
             message: `📧 Email : ${reservationData.email}\n📞 Téléphone : ${reservationData.phone}\n👥 Nombre de couverts : ${reservationData.guests}\n💬 Message : ${reservationData.message || 'Aucun message spécial'}`
-        });
+        };
+
+        await Promise.all([
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CLIENT, clientTemplateParams),
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_RESTAURANT, restaurantTemplateParams)
+        ]);
         
         return true;
     } catch (error) {
