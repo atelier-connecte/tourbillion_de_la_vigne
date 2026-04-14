@@ -2,6 +2,9 @@
 // === GESTION RÉSERVATIONS
 // ============================================
 
+const EMAILJS_SERVICE_ID = 'service_0vr7k2s';
+const EMAILJS_TEMPLATE_CLIENT = 'template_295vy3j';
+
 const DEMO_RESERVATIONS = [
     {
         id: 1713024000000,
@@ -148,6 +151,15 @@ function getServiceType(time) {
     return hour < 15 ? 'dejeuner' : 'diner';
 }
 
+function formatReservationDate(dateStr) {
+    return new Date(dateStr).toLocaleDateString('fr-FR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+}
+
 function filterReservations() {
     let filtered = allReservations.filter(r => r.date === selectedDate);
     
@@ -203,13 +215,50 @@ function renderReservations() {
     `).join('');
 }
 
-function updateStatus(id, newStatus) {
+async function updateStatus(id, newStatus) {
     const reservation = allReservations.find(r => r.id === id);
     if (reservation) {
+        const previousStatus = reservation.status;
         reservation.status = newStatus;
+
+        if (previousStatus !== 'confirmed' && newStatus === 'confirmed' && !reservation.clientConfirmationSent) {
+            const sent = await sendClientConfirmationEmail(reservation);
+            if (sent) {
+                reservation.clientConfirmationSent = true;
+            }
+        }
+
         saveReservations();
         renderReservations();
         updateStats();
+    }
+}
+
+async function sendClientConfirmationEmail(reservation) {
+    try {
+        const fullName = `${reservation.firstName} ${reservation.lastName}`;
+        const service = getServiceType(reservation.time);
+        const serviceLabel = service === 'dejeuner' ? 'Déjeuner' : 'Dîner';
+
+        const templateParams = {
+            to_name: fullName,
+            to_email: reservation.email,
+            reservation_date: formatReservationDate(reservation.date),
+            reservation_time: reservation.time,
+            service_label: serviceLabel,
+            guests: reservation.guests,
+            client_phone: reservation.phone,
+            client_message: reservation.message || 'Aucun message spécial',
+            restaurant_name: 'Le Tourbillon de la Vigne',
+            restaurant_team: 'Pierre & Virginie'
+        };
+
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CLIENT, templateParams);
+        console.log('Email client envoyé (confirmation admin):', EMAILJS_TEMPLATE_CLIENT);
+        return true;
+    } catch (error) {
+        console.error('Erreur envoi email client (confirmation admin):', error);
+        return false;
     }
 }
 

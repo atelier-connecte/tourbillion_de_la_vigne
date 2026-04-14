@@ -4,6 +4,27 @@
 
 ---
 
+## 14 avril 2026 | Flux EmailJS métier | Admin à la réservation, client à la confirmation
+
+**Objectif :** Aligner le comportement email avec le besoin démo : notification admin à la création de réservation, confirmation client uniquement après action admin.
+
+**Actions réalisées :**
+- `script.js` : envoi limité à l’email admin (`template_fa84d3n`) lors de la réservation
+- `script.js` : ajout de la variable `email` dans les paramètres admin pour cohérence `Reply-To`
+- `admin.html` : ajout du CDN EmailJS + initialisation avec la Public Key `AO-oBPw9GC0Lc9cQZ`
+- `admin.js` : envoi de l’email client (`template_295vy3j`) uniquement sur transition `pending` → `confirmed`
+- `admin.js` : garde-fou `clientConfirmationSent` pour éviter les renvois multiples
+
+**Fichiers modifiés :**
+- script.js
+- admin.html
+- admin.js
+- PROJET_CONTEXTE.md
+
+**Résultat :** Le flux email suit le métier attendu pour la démo : admin informé à la demande, client informé à la confirmation.
+
+---
+
 ## 14 avril 2026 | Correctif fiabilité EmailJS | Envoi séquentiel
 
 **Objectif :** Stabiliser l’envoi des emails de réservation (client + restaurant) qui échouaient de manière intermittente.

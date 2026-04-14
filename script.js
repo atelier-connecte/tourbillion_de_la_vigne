@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
             reservations.push(formData);
             localStorage.setItem('reservations', JSON.stringify(reservations));
             
-            const emailSent = await sendEmails(formData);
+            const emailSent = await sendRestaurantNotificationEmail(formData);
             
             const formWrapper = document.getElementById('reservationForm');
             formWrapper.style.opacity = '0';
@@ -296,7 +296,7 @@ function checkCapacityForForm() {
 // === ENVOI EMAILS EMAILJS
 // ============================================
 
-async function sendEmails(reservationData) {
+async function sendRestaurantNotificationEmail(reservationData) {
     try {
         const service = getServiceType(reservationData.time);
         const serviceLabel = service === 'dejeuner' ? 'Déjeuner' : 'Dîner';
@@ -304,36 +304,19 @@ async function sendEmails(reservationData) {
 
         const fullName = reservationData.firstName + ' ' + reservationData.lastName;
 
-        const clientTemplateParams = {
-            to_name: fullName,
-            to_email: reservationData.email,
-            reservation_date: formattedDate,
-            reservation_time: reservationData.time,
-            service_label: serviceLabel,
-            guests: reservationData.guests,
-            client_phone: reservationData.phone,
-            client_message: reservationData.message || 'Aucun message spécial',
-            restaurant_name: 'Le Tourbillon de la Vigne',
-            restaurant_team: 'Pierre & Virginie'
-        };
-
         const restaurantTemplateParams = {
             name: fullName,
             time: formattedDate + ' à ' + reservationData.time + ' (' + serviceLabel + ')',
+            email: reservationData.email,
             message: `📧 Email : ${reservationData.email}\n📞 Téléphone : ${reservationData.phone}\n👥 Nombre de couverts : ${reservationData.guests}\n💬 Message : ${reservationData.message || 'Aucun message spécial'}`
         };
 
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CLIENT, clientTemplateParams);
-        console.log('Email client envoyé:', EMAILJS_TEMPLATE_CLIENT);
-
-        await new Promise(resolve => setTimeout(resolve, 300));
-
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_RESTAURANT, restaurantTemplateParams);
-        console.log('Email restaurant envoyé:', EMAILJS_TEMPLATE_RESTAURANT);
+        console.log('Email admin envoyé (nouvelle réservation):', EMAILJS_TEMPLATE_RESTAURANT);
         
         return true;
     } catch (error) {
-        console.error('Erreur envoi email:', error);
+        console.error('Erreur envoi email admin:', error);
         return false;
     }
 }
