@@ -1,3 +1,7 @@
+// ============================================
+// === GESTION RÉSERVATIONS
+// ============================================
+
 const DEMO_RESERVATIONS = [
     {
         id: 1713024000000,
@@ -98,6 +102,10 @@ function saveReservations() {
     localStorage.setItem('reservations', JSON.stringify(userReservations));
 }
 
+// ============================================
+// === STATISTIQUES
+// ============================================
+
 function updateStats() {
     const today = new Date().toISOString().split('T')[0];
     const todayReservations = allReservations.filter(r => r.date === today && r.status !== 'cancelled');
@@ -125,6 +133,10 @@ function updateStats() {
     }
 }
 
+// ============================================
+// === UTILITAIRES
+// ============================================
+
 function updateDate() {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const dateStr = new Date().toLocaleDateString('fr-FR', options);
@@ -133,16 +145,16 @@ function updateDate() {
 
 function getServiceType(time) {
     const hour = parseInt(time.split(':')[0]);
-    return hour < 15 ? 'lunch' : 'dinner';
+    return hour < 15 ? 'dejeuner' : 'diner';
 }
 
 function filterReservations() {
     let filtered = allReservations.filter(r => r.date === selectedDate);
     
     if (currentFilter === 'lunch') {
-        filtered = filtered.filter(r => getServiceType(r.time) === 'lunch');
+        filtered = filtered.filter(r => getServiceType(r.time) === 'dejeuner');
     } else if (currentFilter === 'dinner') {
-        filtered = filtered.filter(r => getServiceType(r.time) === 'dinner');
+        filtered = filtered.filter(r => getServiceType(r.time) === 'diner');
     }
     
     return filtered;
@@ -201,6 +213,10 @@ function updateStatus(id, newStatus) {
     }
 }
 
+// ============================================
+// === CALENDRIER
+// ============================================
+
 function renderCalendar() {
     const grid = document.getElementById('calendarGrid');
     const today = new Date();
@@ -253,4 +269,239 @@ document.addEventListener('DOMContentLoaded', function() {
             renderReservations();
         });
     });
+    
+    initTabs();
+    initMenuEditor();
+    initCapacityManager();
 });
+
+// ============================================
+// === GESTION ONGLETS
+// ============================================
+
+function initTabs() {
+    const tabs = document.querySelectorAll('.admin-tab');
+    const contents = document.querySelectorAll('.tab-content');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const targetTab = this.dataset.tab;
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            this.classList.add('active');
+            document.getElementById(`tab${targetTab.charAt(0).toUpperCase() + targetTab.slice(1)}`).classList.add('active');
+        });
+    });
+}
+
+// ============================================
+// === ÉDITEUR CARTE DES MENUS
+// ============================================
+
+const DEFAULT_MENU = {
+    categories: [
+        {
+            id: 'aperitif',
+            name: 'Pour commencer',
+            dishes: [
+                { id: 'a1', name: 'Olives de Nyons bio', description: '', price: '3,50€' },
+                { id: 'a2', name: 'Gaspacho de carottes', description: '', price: '4,50€' },
+                { id: 'a3', name: 'Saucisson sec de la ferme de Montchervet (69)', description: 'beurre cru de l\'Ain, cornichons', price: '7,50€' }
+            ]
+        },
+        {
+            id: 'assiettes',
+            name: 'Assiettes à partager',
+            dishes: [
+                { id: 'p1', name: 'Crème de butternut rôties', description: 'burrata & noix', price: '8€' },
+                { id: 'p2', name: 'Topinambours caramélisés', description: 'sabayon café', price: '9,50€' },
+                { id: 'p3', name: 'Œuf coulant façon meurette', description: '(végétarien possible)', price: '11€' },
+                { id: 'p4', name: 'Pâté en croute', description: 'de la Boucherie Paupiette', price: '12€' },
+                { id: 'p5', name: 'Assiette de fromages', description: 'fromagerie Au chien sous la table', price: '7,50€ / 13€' },
+                { id: 'p6', name: 'Rôti de cochon façon tonnato', description: 'câpres, pickles', price: '13€' },
+                { id: 'p7', name: 'Croziflette végé', description: 'reblochon bio et poireaux caramélisés', price: '16€' }
+            ]
+        },
+        {
+            id: 'desserts',
+            name: 'Pour finir',
+            dishes: [
+                { id: 'd1', name: 'Brownie (chocolat bio 70%)', description: 'crème anglaise au piment d\'Espelette', price: '8€' },
+                { id: 'd2', name: 'Tarte poire amandine aux noisettes', description: '', price: '8€' },
+                { id: 'd3', name: 'Fromage blanc de la laiterie Carrier (07)', description: 'coulis de framboise Saveurs du Vercors', price: '7€' }
+            ]
+        }
+    ]
+};
+
+let currentMenu = null;
+
+function initMenuEditor() {
+    currentMenu = JSON.parse(localStorage.getItem('menuCard') || JSON.stringify(DEFAULT_MENU));
+    renderMenuEditor();
+    
+    document.getElementById('saveMenuBtn').addEventListener('click', saveMenu);
+    document.getElementById('addCategoryBtn').addEventListener('click', addCategory);
+}
+
+function renderMenuEditor() {
+    const editor = document.getElementById('menuEditor');
+    
+    editor.innerHTML = currentMenu.categories.map((category, catIndex) => `
+        <div class="category-editor" data-category-index="${catIndex}">
+            <div class="category-header">
+                <input type="text" class="category-name-input" value="${category.name}" data-category-index="${catIndex}">
+                <button class="btn-delete" onclick="deleteCategory(${catIndex})">🗑️ Supprimer catégorie</button>
+            </div>
+            <div class="dishes-list">
+                ${category.dishes.map((dish, dishIndex) => `
+                    <div class="dish-editor">
+                        <input type="text" class="dish-name-input" placeholder="Nom du plat" value="${dish.name}" data-category="${catIndex}" data-dish="${dishIndex}">
+                        <input type="text" class="dish-description-input" placeholder="Description" value="${dish.description}" data-category="${catIndex}" data-dish="${dishIndex}">
+                        <input type="text" class="dish-price-input" placeholder="Prix" value="${dish.price}" data-category="${catIndex}" data-dish="${dishIndex}">
+                        <button class="btn-delete-small" onclick="deleteDish(${catIndex}, ${dishIndex})">🗑️</button>
+                    </div>
+                `).join('')}
+            </div>
+            <button class="btn-add-dish" onclick="addDish(${catIndex})">+ Ajouter un plat</button>
+        </div>
+    `).join('');
+    
+    document.querySelectorAll('.category-name-input').forEach(input => {
+        input.addEventListener('change', function() {
+            const catIndex = parseInt(this.dataset.categoryIndex);
+            currentMenu.categories[catIndex].name = this.value;
+        });
+    });
+    
+    document.querySelectorAll('.dish-name-input, .dish-description-input, .dish-price-input').forEach(input => {
+        input.addEventListener('change', function() {
+            const catIndex = parseInt(this.dataset.category);
+            const dishIndex = parseInt(this.dataset.dish);
+            const field = this.classList.contains('dish-name-input') ? 'name' : 
+                         this.classList.contains('dish-description-input') ? 'description' : 'price';
+            currentMenu.categories[catIndex].dishes[dishIndex][field] = this.value;
+        });
+    });
+}
+
+function addCategory() {
+    const newCategory = {
+        id: 'category-' + Date.now(),
+        name: 'Nouvelle catégorie',
+        dishes: []
+    };
+    currentMenu.categories.push(newCategory);
+    renderMenuEditor();
+}
+
+function deleteCategory(catIndex) {
+    if (confirm('Supprimer cette catégorie ?')) {
+        currentMenu.categories.splice(catIndex, 1);
+        renderMenuEditor();
+    }
+}
+
+function addDish(catIndex) {
+    const newDish = {
+        id: 'dish-' + Date.now(),
+        name: '',
+        description: '',
+        price: ''
+    };
+    currentMenu.categories[catIndex].dishes.push(newDish);
+    renderMenuEditor();
+}
+
+function deleteDish(catIndex, dishIndex) {
+    if (confirm('Supprimer ce plat ?')) {
+        currentMenu.categories[catIndex].dishes.splice(dishIndex, 1);
+        renderMenuEditor();
+    }
+}
+
+function saveMenu() {
+    localStorage.setItem('menuCard', JSON.stringify(currentMenu));
+    alert('✓ Carte sauvegardée ! Rechargez index.html pour voir les modifications.');
+}
+
+// ============================================
+// === GESTION CAPACITÉS
+// ============================================
+
+let capacityData = null;
+
+function initCapacityManager() {
+    capacityData = JSON.parse(localStorage.getItem('tableCapacity') || JSON.stringify({
+        default: { dejeuner: 15, diner: 15 },
+        dates: {}
+    }));
+    
+    document.getElementById('defaultLunch').value = capacityData.default.dejeuner;
+    document.getElementById('defaultDinner').value = capacityData.default.diner;
+    
+    renderSpecificCapacities();
+    
+    document.getElementById('saveCapacitiesBtn').addEventListener('click', saveCapacities);
+    document.getElementById('addSpecificCapacityBtn').addEventListener('click', addSpecificCapacity);
+}
+
+function renderSpecificCapacities() {
+    const list = document.getElementById('specificCapacitiesList');
+    const dates = Object.keys(capacityData.dates).sort();
+    
+    if (dates.length === 0) {
+        list.innerHTML = '<p class="empty-message">Aucune capacité spécifique définie</p>';
+        return;
+    }
+    
+    list.innerHTML = dates.map(date => {
+        const cap = capacityData.dates[date];
+        return `
+            <div class="specific-capacity-item">
+                <span class="capacity-date">${new Date(date).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                <span class="capacity-value">Déjeuner: ${cap.dejeuner} · Dîner: ${cap.diner}</span>
+                <button class="btn-delete-small" onclick="deleteSpecificCapacity('${date}')">🗑️</button>
+            </div>
+        `;
+    }).join('');
+}
+
+function addSpecificCapacity() {
+    const date = document.getElementById('specificDate').value;
+    const lunch = parseInt(document.getElementById('specificLunch').value);
+    const dinner = parseInt(document.getElementById('specificDinner').value);
+    
+    if (!date || isNaN(lunch) || isNaN(dinner)) {
+        alert('Veuillez remplir tous les champs');
+        return;
+    }
+    
+    capacityData.dates[date] = {
+        dejeuner: lunch,
+        diner: dinner
+    };
+    
+    document.getElementById('specificDate').value = '';
+    document.getElementById('specificLunch').value = '';
+    document.getElementById('specificDinner').value = '';
+    
+    renderSpecificCapacities();
+}
+
+function deleteSpecificCapacity(date) {
+    if (confirm('Supprimer cette capacité spécifique ?')) {
+        delete capacityData.dates[date];
+        renderSpecificCapacities();
+    }
+}
+
+function saveCapacities() {
+    capacityData.default.dejeuner = parseInt(document.getElementById('defaultLunch').value);
+    capacityData.default.diner = parseInt(document.getElementById('defaultDinner').value);
+    
+    localStorage.setItem('tableCapacity', JSON.stringify(capacityData));
+    alert('✓ Capacités sauvegardées !');
+}

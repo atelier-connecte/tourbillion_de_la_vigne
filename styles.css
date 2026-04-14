@@ -2,10 +2,11 @@
     --fond-principal: #1C0E07;
     --fond-contenu: #FDFAF5;
     --texte-principal: #2C2018;
-    --accent-principal: #B8842A;
+    --accent-principal: #C4923A;
     --accent-secondaire: #4A5C2F;
     --separateur: #E8DCC8;
     --texte-clair: #FDFAF5;
+    --texte-sombre: #1C0E07;
 }
 
 * {
@@ -92,9 +93,9 @@ body {
     justify-content: center;
     position: relative;
     background: var(--fond-principal);
-    background-image: url('https://static.wixstatic.com/media/c1ad2d_53f942e90df14820b0072b9f90a34b84~mv2.jpg');
+    background-image: url('https://static.wixstatic.com/media/c1ad2d_72093d8b937a4b13a94a2fa6563879ef~mv2.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: center 30%;
 }
 
 .hero-overlay {
@@ -108,11 +109,17 @@ body {
 }
 
 .hero-logo {
-    max-width: 180px;
+    max-width: 320px;
     height: auto;
     margin: 0 auto 1.5rem;
     display: block;
     filter: brightness(1.1);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.hero-logo:hover {
+    transform: scale(1.05);
 }
 
 .hero-content {
@@ -132,10 +139,10 @@ body {
 
 .hero-tagline {
     font-family: 'Josefin Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 0.85rem;
     color: var(--accent-principal);
     margin-bottom: 3rem;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     text-transform: uppercase;
     font-weight: 400;
 }
@@ -706,6 +713,39 @@ body {
     opacity: 0.5;
 }
 
+.footer-admin-link {
+    font-size: 0.7rem;
+    color: rgba(253, 250, 245, 0.3);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-admin-link:hover {
+    color: rgba(253, 250, 245, 0.6);
+}
+
+.admin-test-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background-color: var(--accent-principal);
+    color: var(--fond-principal);
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.admin-test-btn:hover {
+    background-color: #D4B55E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
 @media (max-width: 768px) {
     .hero-logo {
         max-width: 140px;
@@ -805,6 +845,796 @@ body {
     }
 
     .instagram-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================ */
+/* === STYLES ADMIN (admin.html)           === */
+/* ============================================ */
+
+:root {
+    --status-pending: #B8842A;
+    --status-confirmed: #4A5C2F;
+    --status-cancelled: #8B4049;
+}
+
+body {
+    background-color: #F5F5F5;
+}
+
+.header {
+    background-color: var(--fond-principal);
+    color: var(--texte-clair);
+    padding: 2rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-logo {
+    max-width: 80px;
+    height: auto;
+}
+
+.header-title h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.header-title p {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--accent-principal);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.header-info {
+    text-align: right;
+}
+
+.current-date {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.today-badge {
+    display: inline-block;
+    background-color: var(--accent-principal);
+    color: var(--fond-principal);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.stats-bar {
+    background-color: white;
+    border-bottom: 1px solid var(--separateur);
+    padding: 1.5rem 0;
+}
+
+.stats-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: var(--fond-contenu);
+    border: 1px solid var(--separateur);
+}
+
+.stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-principal);
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.main-content {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border: 2px solid var(--separateur);
+    background-color: white;
+    color: var(--texte-principal);
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.filter-btn:hover {
+    border-color: var(--accent-principal);
+    background-color: var(--fond-contenu);
+}
+
+.filter-btn.active {
+    background-color: var(--accent-principal);
+    color: var(--fond-principal);
+    border-color: var(--accent-principal);
+}
+
+.reservations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.reservation-card {
+    background-color: white;
+    border: 2px solid var(--separateur);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.reservation-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.reservation-card.pending {
+    border-left: 4px solid var(--status-pending);
+}
+
+.reservation-card.confirmed {
+    border-left: 4px solid var(--status-confirmed);
+}
+
+.reservation-card.cancelled {
+    border-left: 4px solid var(--status-cancelled);
+    opacity: 0.7;
+}
+
+.reservation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--separateur);
+}
+
+.reservation-time {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--texte-principal);
+}
+
+.reservation-guests {
+    background-color: var(--fond-contenu);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    color: var(--accent-principal);
+    font-size: 0.9rem;
+}
+
+.reservation-info {
+    margin-bottom: 1rem;
+}
+
+.reservation-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--texte-principal);
+}
+
+.reservation-contact {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.reservation-message {
+    background-color: var(--fond-contenu);
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #666;
+    margin-top: 0.75rem;
+}
+
+.reservation-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.btn-confirm {
+    background-color: var(--status-confirmed);
+    color: white;
+}
+
+.btn-confirm:hover {
+    background-color: #5A7C3F;
+}
+
+.btn-cancel {
+    background-color: var(--status-cancelled);
+    color: white;
+}
+
+.btn-cancel:hover {
+    background-color: #9B5059;
+}
+
+.btn-confirm:disabled,
+.btn-cancel:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.pending {
+    background-color: rgba(184, 132, 42, 0.2);
+    color: var(--status-pending);
+}
+
+.status-badge.confirmed {
+    background-color: rgba(74, 92, 47, 0.2);
+    color: var(--status-confirmed);
+}
+
+.status-badge.cancelled {
+    background-color: rgba(139, 64, 73, 0.2);
+    color: var(--status-cancelled);
+}
+
+.calendar-section {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--separateur);
+    margin-bottom: 3rem;
+}
+
+.calendar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--texte-principal);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1rem;
+}
+
+.calendar-day {
+    text-align: center;
+    padding: 1rem;
+    border: 1px solid var(--separateur);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.calendar-day:hover {
+    background-color: var(--fond-contenu);
+    border-color: var(--accent-principal);
+}
+
+.calendar-day.active {
+    background-color: var(--accent-principal);
+    color: var(--fond-principal);
+    border-color: var(--accent-principal);
+}
+
+.day-name {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.calendar-day.active .day-name {
+    color: var(--fond-principal);
+}
+
+.day-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.day-count {
+    display: inline-block;
+    background-color: var(--accent-principal);
+    color: var(--fond-principal);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.calendar-day.active .day-count {
+    background-color: var(--fond-principal);
+    color: var(--accent-principal);
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 2rem;
+    color: var(--accent-principal);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--accent-secondaire);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #999;
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .header-info {
+        text-align: center;
+    }
+
+    .stats-content {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-buttons {
+        flex-direction: column;
+    }
+
+    .reservations-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calendar-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ============================================ */
+/* === ONGLETS ADMIN                       === */
+/* ============================================ */
+
+.admin-tabs {
+    background-color: white;
+    border-bottom: 2px solid var(--separateur);
+    display: flex;
+    justify-content: center;
+    gap: 0;
+}
+
+.admin-tab {
+    padding: 1rem 2rem;
+    border: none;
+    background-color: transparent;
+    color: var(--texte-principal);
+    font-weight: 600;
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.admin-tab:hover {
+    background-color: var(--fond-contenu);
+    color: var(--accent-principal);
+}
+
+.admin-tab.active {
+    color: var(--accent-principal);
+    border-bottom-color: var(--accent-principal);
+    background-color: var(--fond-contenu);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ============================================ */
+/* === ÉDITEUR CARTE DES MENUS             === */
+/* ============================================ */
+
+.menu-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.category-editor {
+    background-color: white;
+    border: 2px solid var(--separateur);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--separateur);
+}
+
+.category-name-input {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--texte-principal);
+    border: 2px solid transparent;
+    padding: 0.5rem;
+    border-radius: 4px;
+    flex: 1;
+    transition: border-color 0.3s ease;
+}
+
+.category-name-input:focus {
+    outline: none;
+    border-color: var(--accent-principal);
+    background-color: var(--fond-contenu);
+}
+
+.dishes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.dish-editor {
+    display: grid;
+    grid-template-columns: 2fr 3fr 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: var(--fond-contenu);
+    border-radius: 6px;
+}
+
+.dish-name-input,
+.dish-description-input,
+.dish-price-input {
+    padding: 0.5rem;
+    border: 1px solid var(--separateur);
+    border-radius: 4px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+}
+
+.dish-name-input:focus,
+.dish-description-input:focus,
+.dish-price-input:focus {
+    outline: none;
+    border-color: var(--accent-principal);
+}
+
+.btn-add-dish {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--accent-secondaire);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.btn-add-dish:hover {
+    background-color: #5A7C3F;
+}
+
+.btn-delete {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--status-cancelled);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.btn-delete:hover {
+    background-color: #9B5059;
+}
+
+.btn-delete-small {
+    padding: 0.5rem 0.75rem;
+    background-color: var(--status-cancelled);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.btn-delete-small:hover {
+    background-color: #9B5059;
+}
+
+.btn-secondary {
+    padding: 0.75rem 1.5rem;
+    background-color: white;
+    color: var(--accent-principal);
+    border: 2px solid var(--accent-principal);
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.btn-secondary:hover {
+    background-color: var(--accent-principal);
+    color: var(--fond-principal);
+}
+
+/* ============================================ */
+/* === GESTION CAPACITÉS                   === */
+/* ============================================ */
+
+.capacity-section {
+    background-color: white;
+    border: 2px solid var(--separateur);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.capacity-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--texte-principal);
+    margin-bottom: 1.5rem;
+}
+
+.capacity-default {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.capacity-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.capacity-input-group label {
+    font-weight: 600;
+    color: var(--texte-principal);
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.capacity-input-group input {
+    padding: 0.75rem;
+    border: 2px solid var(--separateur);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent-principal);
+    transition: border-color 0.3s ease;
+}
+
+.capacity-input-group input:focus {
+    outline: none;
+    border-color: var(--accent-principal);
+}
+
+.capacity-add-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.capacity-add-form input {
+    padding: 0.75rem;
+    border: 2px solid var(--separateur);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+}
+
+.capacity-add-form input:focus {
+    outline: none;
+    border-color: var(--accent-principal);
+}
+
+.specific-capacities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.specific-capacity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--fond-contenu);
+    border-radius: 6px;
+    border: 1px solid var(--separateur);
+}
+
+.capacity-date {
+    font-weight: 700;
+    color: var(--texte-principal);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+}
+
+.capacity-value {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.empty-message {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 2rem;
+}
+
+/* ============================================ */
+/* === BANDEAU COMPLET FORMULAIRE          === */
+/* ============================================ */
+
+.capacity-warning {
+    background-color: var(--status-cancelled);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.4s ease;
+}
+
+.capacity-warning.hidden {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .admin-tabs {
+        flex-direction: column;
+    }
+    
+    .admin-tab {
+        border-bottom: 1px solid var(--separateur);
+        border-left: 3px solid transparent;
+    }
+    
+    .admin-tab.active {
+        border-bottom-color: var(--separateur);
+        border-left-color: var(--accent-principal);
+    }
+    
+    .dish-editor {
+        grid-template-columns: 1fr;
+    }
+    
+    .capacity-default {
+        grid-template-columns: 1fr;
+    }
+    
+    .capacity-add-form {
         grid-template-columns: 1fr;
     }
 }

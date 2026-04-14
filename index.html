@@ -11,15 +11,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- EmailJS CDN -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("IFE4YLdMxS6QXU2Hj");
+        })();
+    </script>
 </head>
 <body>
+
+    <!-- BOUTON ADMIN TEST (visible) -->
+    <a href="admin.html" class="admin-test-btn">Admin</a>
 
     <!-- SECTION 1 — HERO -->
     <section id="hero" class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <img src="https://static.wixstatic.com/media/c1ad2d_62af044ca80b41b68fd5f8463fed5e68~mv2.png" alt="Le Tourbillon de la Vigne" class="hero-logo">
-            <h1 class="hero-title">Le Tourbillon de la Vigne</h1>
+            <img src="https://static.wixstatic.com/media/c1ad2d_62af044ca80b41b68fd5f8463fed5e68~mv2.png" alt="Le Tourbillon de la Vigne" class="hero-logo" id="heroLogo">
             <p class="hero-tagline">Vins engagés · Cuisine de saison · Bistrot</p>
             <div class="hero-buttons">
                 <a href="#reservation" class="btn btn-primary">Réserver une table</a>
@@ -37,9 +47,9 @@
             <h2 class="section-title">Pierre & Virginie vous accueillent</h2>
             <div class="esprit-content">
                 <div class="esprit-text">
-                    <p>Le Tourbillon de la Vigne, c'est le Tourbi pour les habitués. Un bistrot & cave à manger où Pierre vous guide dans les vins engagés (bio, nature, 150 références) et où Virginie compose une carte de saison qui change toutes les 3 semaines.</p>
-                    <p>Ici, on partage des assiettes généreuses, on découvre des flacons qui racontent une histoire, et on prend son temps. Labellisés Bistrots Beaujolais et référencés dans le Guide The Greener Good 2025.</p>
-                    <p>C'est ça, le tourbillon de la vie. :)</p>
+                    <p>Ouvert en janvier 2024, notre bistrot propose une cuisine de saison et faite maison avec des assiettes à partager le soir et un menu entrée / plat / dessert le midi.</p>
+                    <p>Pour accompagner tout ça, on sert un très large choix de vins de vignerons et vigneronnes engagés, au verre et à la bouteille, provenant de toutes la France.</p>
+                    <p>N'étant ni l'un ni l'autre issu du secteur de la restauration, c'est donc dans une aventure un peu folle que nous avons été pris... le tourbillon de la vie :)</p>
                 </div>
                 <div class="esprit-image">
                     <img src="https://static.wixstatic.com/media/c1ad2d_cdf456a46cc7482f831415e7f7dc54d2~mv2.jpg" alt="Pierre et Virginie" loading="lazy">
@@ -58,92 +68,13 @@
                 <p>13 assiettes à partager, de 3,50€ à 16€. Cuisine de saison, produits frais, générosité.</p>
             </div>
 
-            <div class="menu-grid">
-                <div class="menu-column">
-                    <h3 class="menu-category">Assiettes froides</h3>
-                    <div class="menu-items">
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <h4>Tartare de betterave</h4>
-                                <span class="price">6,50€</span>
-                            </div>
-                            <p>chèvre frais, pickles d'oignon rouge</p>
-                        </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <h4>Burrata crémeuse</h4>
-                                <span class="price">9€</span>
-                            </div>
-                            <p>tomates confites, basilic, huile d'olive</p>
-                        </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <h4>Planche de charcuterie</h4>
-                                <span class="price">12€</span>
-                            </div>
-                            <p>sélection artisanale, cornichons maison</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="menu-column">
-                    <h3 class="menu-category">Assiettes chaudes</h3>
-                    <div class="menu-items">
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <h4>Velouté de saison</h4>
-                                <span class="price">5,50€</span>
-                            </div>
-                            <p>crème, croûtons, huile de noisette</p>
-                        </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <h4>Joue de porc confite</h4>
-                                <span class="price">14€</span>
-                            </div>
-                            <p>purée de céleri, jus corsé</p>
-                        </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <h4>Risotto crémeux</h4>
-                                <span class="price">11€</span>
-                            </div>
-                            <p>champignons de saison, parmesan</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="menu-column">
-                    <h3 class="menu-category">Desserts & fromages</h3>
-                    <div class="menu-items">
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <h4>Fondant chocolat</h4>
-                                <span class="price">7€</span>
-                            </div>
-                            <p>cœur coulant, glace vanille</p>
-                        </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <h4>Tarte du moment</h4>
-                                <span class="price">6,50€</span>
-                            </div>
-                            <p>selon arrivage, fait maison</p>
-                        </div>
-                        <div class="menu-item">
-                            <div class="menu-item-header">
-                                <h4>Fromages affinés</h4>
-                                <span class="price">8€</span>
-                            </div>
-                            <p>sélection de 3 fromages, confiture</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="menu-grid" id="menuGrid">
+                <!-- Le contenu sera généré dynamiquement par JavaScript -->
             </div>
 
             <div class="menu-footer">
                 <p class="menu-note">Carte du soir · Ardoise du déjeuner le vendredi midi</p>
-                <p class="menu-note">Carte complète disponible sur place (PDF)</p>
+                <p class="menu-note"><a href="https://www.letourbillondelavigne.fr/_files/ugd/c1ad2d_b76857a1a2384748995382a08cb7aa45.pdf" target="_blank" class="link-accent">Carte des vins complète (PDF) →</a></p>
             </div>
 
             <div class="carte-cta">
@@ -157,6 +88,10 @@
         <div class="container">
             <h2 class="section-title">Réserver une table</h2>
             <p class="reservation-subtitle">Réponse confirmée sous 2h · Sans engagement</p>
+            
+            <div id="capacityWarning" class="capacity-warning hidden">
+                ⚠️ Plus de tables disponibles pour ce service
+            </div>
             
             <div id="reservationForm" class="reservation-form-wrapper">
                 <form id="bookingForm" class="booking-form">
@@ -236,17 +171,13 @@
                 <h3>Demande reçue !</h3>
                 <p>Pierre ou Virginie vous confirment sous 2h.<br>À très vite au Tourbillon. 🍷</p>
             </div>
-
-            <div class="admin-link-wrapper">
-                <a href="admin.html" class="admin-link">Espace restaurant</a>
-            </div>
         </div>
     </section>
 
     <!-- SECTION 5 — INSTAGRAM -->
     <section id="instagram" class="instagram">
         <div class="container">
-            <h2 class="section-title">Suivez les coulisses</h2>
+            <h2 class="section-title">Sur Instagram</h2>
             <p class="instagram-handle">@letourbillondelavigne</p>
             
             <div class="instagram-grid">
@@ -342,8 +273,8 @@
                 <p>🏆 Bistrots Beaujolais · Raisin app · The Greener Good 2025</p>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Le Tourbillon de la Vigne · 28 rue Michel Servet, 69100 Villeurbanne</p>
-                <p class="footer-credit">Site réalisé par L'Atelier Connecté</p>
+                <p>&copy; 2024 par Le Tourbillon de la Vigne.</p>
+                <a href="admin.html" class="footer-admin-link">🔒 Espace restaurant</a>
             </div>
         </div>
     </footer>
