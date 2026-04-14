@@ -4,6 +4,26 @@
 
 ---
 
+## 14 avril 2026 | Admin Réservations | Suppression des réservations annulées
+
+**Objectif :** Permettre au restaurant de supprimer en un clic les réservations annulées depuis l’interface admin.
+
+**Actions réalisées :**
+- `admin.html` : ajout d’un bouton `Supprimer les réservations annulées` dans l’onglet Réservations
+- `admin.js` : ajout de la fonction `deleteCancelledReservations()` avec confirmation utilisateur
+- `admin.js` : suppression des réservations annulées utilisateur depuis `localStorage`
+- `admin.js` : persistance de la suppression des réservations de démo via la clé `deletedDemoReservationIds`
+- `admin.js` : rafraîchissement immédiat de la grille, des stats et du calendrier après suppression
+
+**Fichiers modifiés :**
+- admin.html
+- admin.js
+- PROJET_CONTEXTE.md
+
+**Résultat :** Les réservations annulées disparaissent de l’admin et ne réapparaissent pas au rechargement de la page.
+
+---
+
 ## 14 avril 2026 | Flux EmailJS métier | Admin à la réservation, client à la confirmation
 
 **Objectif :** Aligner le comportement email avec le besoin démo : notification admin à la création de réservation, confirmation client uniquement après action admin.

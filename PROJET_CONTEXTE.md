@@ -129,6 +129,7 @@ tourbillon-de-la-vigne/
 - **Compatibilité Windows/Chrome** : champs `select` forcés en fond clair + texte sombre (états fermé/ouvert/focus) pour éviter le blanc sur blanc
 - **EmailJS fiabilisé** : envoi client/admin passé en séquentiel avec micro-délai (au lieu de `Promise.all`) pour limiter les échecs intermittents liés au rate limit
 - **Flux EmailJS métier aligné** : admin notifié à la création de réservation (`script.js`), client notifié uniquement lors de la confirmation depuis l’espace admin (`admin.js`)
+- **Nettoyage admin des annulées** : bouton ajouté dans `admin.html` pour supprimer définitivement les réservations au statut `cancelled` (réservations utilisateur + réservations de démo marquées supprimées via localStorage)
 
 ### 🔒 Hors scope (ne jamais implémenter sans décision explicite)
 - Authentification admin (mot de passe)
@@ -191,7 +192,7 @@ Tout autre fichier .md va dans _archives/.
 
 ## 8. SESSION EN COURS
 
-**Résultat de fin de session :** Flux email de démo corrigé selon besoin métier : email admin envoyé à chaque nouvelle réservation, et email client envoyé uniquement après action "Confirmer" côté admin. `admin.html` initialise désormais EmailJS pour déclencher l’envoi client depuis le back-office.
+**Résultat de fin de session :** L’espace admin permet maintenant la suppression des réservations annulées via un bouton dédié. Les réservations utilisateur annulées sont retirées de `localStorage` et les réservations de démo annulées sont masquées de façon persistante.
 
 ## 9. BACKLOG (missions suivantes)
 

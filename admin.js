@@ -4,6 +4,7 @@
 
 const EMAILJS_SERVICE_ID = 'service_0vr7k2s';
 const EMAILJS_TEMPLATE_CLIENT = 'template_295vy3j';
+const DELETED_DEMO_RESERVATIONS_KEY = 'deletedDemoReservationIds';
 
 const DEMO_RESERVATIONS = [
     {
@@ -89,10 +90,15 @@ const DEMO_RESERVATIONS = [
 let allReservations = [];
 let currentFilter = 'all';
 let selectedDate = new Date().toISOString().split('T')[0];
+let deletedDemoReservationIds = new Set();
 
 function loadReservations() {
     const storedReservations = JSON.parse(localStorage.getItem('reservations') || '[]');
-    allReservations = [...DEMO_RESERVATIONS, ...storedReservations];
+    deletedDemoReservationIds = new Set(JSON.parse(localStorage.getItem(DELETED_DEMO_RESERVATIONS_KEY) || '[]'));
+
+    const activeDemoReservations = DEMO_RESERVATIONS.filter(r => !deletedDemoReservationIds.has(r.id));
+    allReservations = [...activeDemoReservations, ...storedReservations];
+
     allReservations.sort((a, b) => {
         const dateCompare = a.date.localeCompare(b.date);
         if (dateCompare !== 0) return dateCompare;
@@ -103,6 +109,10 @@ function loadReservations() {
 function saveReservations() {
     const userReservations = allReservations.filter(r => !DEMO_RESERVATIONS.find(d => d.id === r.id));
     localStorage.setItem('reservations', JSON.stringify(userReservations));
+}
+
+function saveDeletedDemoReservations() {
+    localStorage.setItem(DELETED_DEMO_RESERVATIONS_KEY, JSON.stringify(Array.from(deletedDemoReservationIds)));
 }
 
 // ============================================
@@ -260,6 +270,36 @@ async function sendClientConfirmationEmail(reservation) {
         console.error('Erreur envoi email client (confirmation admin):', error);
         return false;
     }
+}
+
+function deleteCancelledReservations() {
+    const cancelledReservations = allReservations.filter(r => r.status === 'cancelled');
+
+    if (cancelledReservations.length === 0) {
+        alert('Aucune réservation annulée à supprimer.');
+        return;
+    }
+
+    const confirmed = confirm(`Supprimer définitivement ${cancelledReservations.length} réservation(s) annulée(s) ?`);
+    if (!confirmed) {
+        return;
+    }
+
+    cancelledReservations.forEach(reservation => {
+        if (DEMO_RESERVATIONS.some(demo => demo.id === reservation.id)) {
+            deletedDemoReservationIds.add(reservation.id);
+        }
+    });
+
+    allReservations = allReservations.filter(r => r.status !== 'cancelled');
+
+    saveReservations();
+    saveDeletedDemoReservations();
+    renderReservations();
+    updateStats();
+    renderCalendar();
+
+    alert('✓ Réservations annulées supprimées.');
 }
 
 // ============================================
