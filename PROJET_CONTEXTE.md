@@ -124,6 +124,8 @@ tourbillon-de-la-vigne/
 - **Accès admin** : 3 clics rapides sur logo hero (caché, cursor pointer ajouté) + bouton "Admin" visible en haut à droite (test) + lien discret "🔒 Espace restaurant" dans footer
 - **EmailJS reconfiguré** : service mis à jour (`service_0vr7k2s`) + 2 templates actifs (`template_295vy3j` client, `template_fa84d3n` restaurant) + envoi parallèle client/admin dans `sendEmails()`
 - **EmailJS finalisé** : Public Key mise à jour dans `index.html` (`AO-oBPw9GC0Lc9cQZ`) pour activer l’envoi réel depuis le nouveau compte
+- **Favicon personnalisé** : icône d’onglet remplacée par `assets/logo_atelier.jpg` sur `index.html` et `admin.html`
+- **Formulaire réservation lisible** : correction du contraste des menus déroulants `Heure` et `Nombre de couverts` (texte/fond des options) dans `styles.css`
 
 ### 🔒 Hors scope (ne jamais implémenter sans décision explicite)
 - Authentification admin (mot de passe)
@@ -186,7 +188,7 @@ Tout autre fichier .md va dans _archives/.
 
 ## 8. SESSION EN COURS
 
-**Résultat de fin de session :** Configuration EmailJS complète et opérationnelle : Service ID, Template IDs (client + restaurant) et Public Key (`AO-oBPw9GC0Lc9cQZ`) sont en place. Le site envoie automatiquement les 2 emails à chaque réservation dès que les templates HTML sont collés/publiés dans EmailJS.
+**Résultat de fin de session :** Correction UX du formulaire de réservation appliquée : les listes déroulantes `Heure` et `Nombre de couverts` sont maintenant lisibles (contraste texte/fond corrigé) et alignées avec la patte visuelle du site.
 
 ## 9. BACKLOG (missions suivantes)
 

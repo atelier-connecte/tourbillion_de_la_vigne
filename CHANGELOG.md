@@ -4,6 +4,41 @@
 
 ---
 
+## 14 avril 2026 | Correctif UX | Lisibilité des listes déroulantes réservation
+
+**Objectif :** Corriger le rendu illisible des menus `Heure` et `Nombre de couverts` dans le formulaire de réservation.
+
+**Actions réalisées :**
+- Ajustement du style des champs `select` du formulaire (flèche, apparence uniforme)
+- Correction du contraste des options ouvertes (`option`) : fond clair + texte sombre lisible
+- Harmonisation visuelle avec la palette du site
+
+**Fichiers modifiés :**
+- styles.css
+- PROJET_CONTEXTE.md
+
+**Résultat :** Les menus déroulants de réservation sont maintenant lisibles et propres sur l’interface utilisateur.
+
+---
+
+## 14 avril 2026 | Finition visuelle | Favicon logo_atelier
+
+**Objectif :** Afficher une icône d’onglet cohérente avec l’identité du site via l’asset local `logo_atelier`.
+
+**Actions réalisées :**
+- Ajout du favicon `assets/logo_atelier.jpg` dans `index.html`
+- Ajout du favicon `assets/logo_atelier.jpg` dans `admin.html`
+- Mise à jour du contexte projet (`PROJET_CONTEXTE.md`, section 8)
+
+**Fichiers modifiés :**
+- index.html
+- admin.html
+- PROJET_CONTEXTE.md
+
+**Résultat :** L’onglet du site et l’onglet admin affichent maintenant le logo atelier comme favicon.
+
+---
+
 ## 14 avril 2026 | Finalisation EmailJS | Mise à jour Public Key
 
 **Objectif :** Finaliser la configuration EmailJS avec la nouvelle Public Key pour activer les envois depuis le compte mis à jour.

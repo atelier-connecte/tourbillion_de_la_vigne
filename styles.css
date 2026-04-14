@@ -424,6 +424,26 @@ body {
     transition: border-color 0.3s ease;
 }
 
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 40px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--accent-principal) 50%), linear-gradient(135deg, var(--accent-principal) 50%, transparent 50%);
+    background-position: calc(100% - 18px) calc(50% - 2px), calc(100% - 12px) calc(50% - 2px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+}
+
+.form-group select option {
+    color: var(--texte-sombre);
+    background-color: var(--fond-contenu);
+}
+
+.form-group select option[value=""] {
+    color: #8c837a;
+}
+
 .form-group input::placeholder,
 .form-group textarea::placeholder {
     color: rgba(253, 250, 245, 0.4);
